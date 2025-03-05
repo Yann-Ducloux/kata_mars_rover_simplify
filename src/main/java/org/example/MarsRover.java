@@ -1,9 +1,6 @@
 package org.example;
 
-import java.util.Arrays;
 import java.util.List;
-
-import static org.example.Command.*;
 
 public class MarsRover {
     Position position;
@@ -15,12 +12,18 @@ public class MarsRover {
 
 
     public void command(String instructions) {
-        String[] listInstruction = instructions.split("");
+        List<String> listInstruction = convertInList(instructions);
         executesInstructions(listInstruction);
     }
 
-    private void executesInstructions(String[] listInstruction) {
-        Arrays.stream(listInstruction).map(Command::convert).forEach(this::execute);
+    private static List<String> convertInList(String instructions) {
+        return instructions.codePoints()
+                .mapToObj(c -> String.valueOf((char) c))
+                .toList();
+    }
+
+    private void executesInstructions(List<String> listInstruction) {
+        listInstruction.stream().map(Command::convert).forEach(this::execute);
     }
 
     private void execute(Command commandChoose) {
