@@ -1,5 +1,10 @@
 package org.example;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.example.Command.*;
+
 public class MarsRover {
     Position position;
     Direction direction;
@@ -9,12 +14,20 @@ public class MarsRover {
     }
 
 
-    public void command(String command) {
-        switch (command) {
-            case "A" -> avancer();
-            case "D" -> tournerDroite();
-            case "G" -> tournerGauche();
-            default -> {}
+    public void command(String instructions) {
+        String[] listInstruction = instructions.split("");
+        executesInstructions(listInstruction);
+    }
+
+    private void executesInstructions(String[] listInstruction) {
+        Arrays.stream(listInstruction).map(Command::convert).forEach(this::execute);
+    }
+
+    private void execute(Command commandChoose) {
+        switch (commandChoose) {
+            case AVANCER -> avancer();
+            case TOURNER_DROITE -> tournerDroite();
+            case TOURNER_GAUCHE -> tournerGauche();
         }
     }
 

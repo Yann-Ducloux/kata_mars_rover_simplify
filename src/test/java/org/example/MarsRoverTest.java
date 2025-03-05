@@ -116,6 +116,29 @@ class MarsRoverTest {
         assertEquals(position, marsRoverActual.getPosition());
         assertEquals(direction, marsRoverActual.getDirection());
     }
+    @Test
+    void should_be_stop_when_receive_a_instruction_unknows() {
+
+        MarsRover marsRoverActual = new MarsRover(position(0, 0), EST);
+        Exception exception = assertThrows(InstructionUnknown.class, () -> {
+            marsRoverActual.command("Y");
+        });
+
+        String expectedMessage = "Y est une instruction inconnue";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+
+    }
+    @Test
+    void should_be_read_instructions_nord_when_receive_insctruction() {
+        MarsRover marsRoverActual = new MarsRover(position(0, 0), NORD);
+        Position position = position(2, 1);
+        var direction = NORD;
+        marsRoverActual.command("DAAGA");
+        assertEquals(position, marsRoverActual.getPosition());
+        assertEquals(direction, marsRoverActual.getDirection());
+    }
     private Position position(int x, int y) {
         return new Position(x, y);
     }
